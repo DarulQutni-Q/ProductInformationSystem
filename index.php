@@ -1,6 +1,8 @@
 <?php
 require_once 'products.php';
 require_once 'functions.php';
+
+$totalAset = hitungTotalNilaiStok($products);
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -50,6 +52,13 @@ require_once 'functions.php';
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5">Total Nilai Aset Keseluruhan:</td>
+                            <td><?= formatRupiah($totalAset) ?></td>
+                            <td colspan="2"></td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </section>
