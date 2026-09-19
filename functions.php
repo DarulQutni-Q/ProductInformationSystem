@@ -39,3 +39,8 @@ function getLabelStok(int $stok): string
 
     return 'Tersedia';
 }
+
+function formatRupiah(int|float $nominal): string
+{
+    return 'Rp ' . number_format($nominal, 0, ',', '.');
+}
