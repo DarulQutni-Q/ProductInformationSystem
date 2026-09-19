@@ -3,6 +3,16 @@ require_once 'products.php';
 require_once 'functions.php';
 
 $totalAset = hitungTotalNilaiStok($products);
+$totalProduk = count($products);
+$totalStokKritis = 0;
+$totalUnitStok = 0;
+
+foreach ($products as $p) {
+    $totalUnitStok += $p['stok'];
+    if (isStokKritis($p['stok'])) {
+        $totalStokKritis++;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -14,11 +24,34 @@ $totalAset = hitungTotalNilaiStok($products);
 <body>
     <div class="container">
         <header>
+            <div class="brand-subtitle">Mini Project 1 &bull; Modul Praktikum</div>
             <h1>Product Information System</h1>
-            <p>Sistem inventaris komoditas produk dan monitoring aset gudang.</p>
+            <p class="desc">Sistem inventaris komoditas produk dan kalkulasi nilai aset gudang.</p>
         </header>
 
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Jenis Produk</div>
+                <div class="stat-value"><?= $totalProduk ?> Item</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Kuantitas Stok</div>
+                <div class="stat-value"><?= number_format($totalUnitStok, 0, ',', '.') ?> Unit</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Nilai Aset Gudang</div>
+                <div class="stat-value"><?= formatRupiah($totalAset) ?></div>
+            </div>
+            <div class="stat-card <?= $totalStokKritis > 0 ? 'alert' : '' ?>">
+                <div class="stat-label">Stok Kritis (&lt; 3)</div>
+                <div class="stat-value"><?= $totalStokKritis ?> Produk</div>
+            </div>
+        </section>
+
         <section class="table-card">
+            <div class="table-header-bar">
+                <div class="table-title">Daftar Komoditas Produk</div>
+            </div>
             <div class="table-responsive">
                 <table>
                     <thead>
