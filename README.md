@@ -220,3 +220,29 @@ AKHIR ALGORITMA
 | FOOTER  | Total Nilai Aset Keseluruhan:              | Rp 2.153.500                       |
 +---------+--------------------------------------------+------------------------------------+
 ```
+
+---
+
+## 5. Matriks Alur Data Antar Berkas (Data Flow Matrix)
+
+Tabel berikut menunjukkan siklus hidup dan transformasi data dari sumber mentah hingga ditampilkan ke antarmuka pengguna:
+
+| Tahapan | Lokasi Berkas | Aksi Logis | Input | Output Logis |
+| :--- | :--- | :--- | :--- | :--- |
+| Inisialisasi Data | `products.php` | Mendefinisikan entitas komoditas | Nilai mentah komoditas | Multidimensional array `$products` |
+| Kalkulasi Aset | `functions.php` | Menghitung akumulasi nilai kapital | Array `$products` | Bilangan integer total nilai aset |
+| Filter Stok Kritis | `functions.php` | Mengevaluasi ambang batas stok | Integer nilai `stok` | Boolean isKritis dan nama kelas baris |
+| Format Angka | `functions.php` | Standarisasi representasi moneter | Integer nominal | String berformat rupiah (`Rp ...`) |
+| Integrasi Berkas | `index.php` | Menggabungkan data dan logika | Path berkas target | Ketersediaan variabel dan fungsi di scope lokal |
+| Perulangan Render | `index.php` | Ekstraksi array ke elemen baris | Array `$products` | Baris `<tr>` tabel HTML dengan warna kondisional |
+| Penyajian Akhir | `index.php` | Pengiriman berkas lengkap ke klien | Dokumen HTML terstruktur | Tampilan halaman web di peramban pengguna |
+
+---
+
+## 6. Kesimpulan Perancangan
+
+Perancangan ini membuktikan bahwa tanpa perlu langsung mengetik kode implementasi, seluruh cetak biru logis dari sistem telah matang:
+1. Batasan tanggung jawab antar berkas terdefinisi dengan jelas (Separation of Concerns).
+2. Struktur data telah siap menampung berbagai variasi kasus nyata di lapangan.
+3. Alur algoritma dan logika percabangan kondisional telah terverifikasi secara matematis dan prosedural.
+4. Integrasi dependensi terstruktur dengan aman menggunakan mekanisme `require_once`.
