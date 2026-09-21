@@ -87,3 +87,39 @@ Untuk memastikan sistem dapat mengevaluasi kondisi secara menyeluruh, data komod
 1. Skenario Stok Aman: Kuantitas stok >= 3 (misal: 14 unit, 25 unit).
 2. Skenario Stok Kritis: Kuantitas stok antara 1 sampai 2 unit (memicu deteksi stok tipis).
 3. Skenario Stok Habis: Kuantitas stok tepat 0 unit (memicu status barang kosong).
+
+---
+
+## 3. Cetak Biru Komponen 2: Processing Layer (`functions.php`)
+
+### Peran dan Tanggung Jawab
+Menjadi pusat logika pemrosesan data (business logic). Berkas ini mengisolasi seluruh kalkulasi dan evaluasi kondisional agar tidak tercampur dengan struktur data atau kode antarmuka.
+
+### Rancangan Fungsi 1: hitungTotalNilaiStok()
+
+#### Tujuan
+Mengalkulasi total nilai kapital atau aset seluruh komoditas yang tersimpan di dalam gudang secara otomatis berdasarkan perkalian harga satuan dan kuantitas stok masing-masing produk.
+
+#### Rumus Matematis
+Total Nilai Aset = Jumlah Kumulatif (Harga Produk ke-i dikali Stok Produk ke-i) untuk i = 1 sampai n.
+
+#### Spesifikasi Input dan Output
+- Input Parameter: `$products` (Array Multidimensi berisi daftar produk).
+- Tipe Data Kembalian: Integer (Nilai total aset akumulatif).
+
+#### Pseudocode Algoritma
+```text
+ALGORITMA hitungTotalNilaiStok(products):
+    DEKLARASI:
+        totalAset SEBAGAI INTEGER
+        item SEBAGAI ASSOCIATIVE ARRAY
+    
+    DESKRIPSI:
+        totalAset <- 0
+        UNTUK SETIAP item DALAM products LAKUKAN:
+            totalAset <- totalAset + (item['harga'] * item['stok'])
+        AKHIR UNTUK
+        
+        KEMBALIKAN totalAset
+AKHIR ALGORITMA
+```
