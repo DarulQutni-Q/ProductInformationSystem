@@ -158,3 +158,20 @@ AKHIR FUNGSI
 
 ### Rancangan Fungsi 3: Helper Format Representasi Moneter
 Untuk memisahkan representasi angka mentah dari format mata uang, fungsi `formatRupiah(nominal)` disiapkan untuk mengubah bilangan bulat menjadi format mata uang resmi Indonesia (pemisah ribuan titik dengan prefiks `Rp`).
+
+---
+
+## 4. Cetak Biru Komponen 3: Presentation Layer (`index.php`)
+
+### Peran dan Tanggung Jawab
+Menjadi gerbang utama aplikasi (front controller) yang bertugas merajut komponen data dan pemrosesan, mengeksekusi iterasi antarmuka, serta merender keluaran akhir berupa dokumen HTML ke peramban pengguna.
+
+### Mekanisme Integrasi Berkas via require_once
+Presentation layer memanfaatkan instruksi `require_once` pada baris awal sebelum blok HTML dieksekusi:
+
+1. `require_once 'products.php'`: Memuat array multidimensi `$products` ke dalam lingkup variabel lokal.
+2. `require_once 'functions.php'`: Memuat pustaka fungsi pemrosesan (`hitungTotalNilaiStok`, `isStokKritis`, dll).
+
+#### Mengapa Menggunakan require_once?
+- Integritas Dependensi: Sistem tidak boleh berjalan jika data atau fungsi tidak tersedia. Pernyataan `require_once` akan menghentikan eksekusi skrip (Fatal Error) jika berkas dependensi hilang, berbeda dengan `include` yang hanya memicu peringatan (Warning).
+- Pencegahan Redeklarasi: Kata kunci `_once` menjamin berkas fungsi atau data tidak dimuat berulang kali, sehingga terhindar dari galat fatal deklarasi fungsi ganda (Cannot redeclare function).
