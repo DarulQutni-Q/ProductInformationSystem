@@ -123,3 +123,38 @@ ALGORITMA hitungTotalNilaiStok(products):
         KEMBALIKAN totalAset
 AKHIR ALGORITMA
 ```
+
+### Rancangan Fungsi 2: Logika Kondisional Stok Kritis (< 3)
+
+#### Aturan Bisnis (Business Rules)
+Ambang batas aman ketersediaan barang di gudang ditetapkan minimal 3 unit. Jika kuantitas stok produk berada di bawah 3 unit, sistem harus menyaring dan memberikan instruksi visual khusus pada baris tabel bersangkutan agar pengelola gudang dapat segera melakukan pengadaan ulang (restock).
+
+#### Tabel Keputusan Kondisi Stok (Decision Matrix)
+
+| Kondisi Kuantitas Stok | Status Logis | Kelas Visual Baris | Indikator Warna Visual |
+| :--- | :--- | :--- | :--- |
+| `stok == 0` | Habis | `status-habis` | Latar merah lembut (Red Alert) |
+| `stok > 0 DAN stok < 3` | Kritis | `status-kritis` | Latar kuning/oranye lembut (Amber Warning) |
+| `stok >= 3` | Tersedia | `status-aman` | Latar putih netral |
+
+#### Pseudocode Evaluasi Kondisi
+```text
+FUNGSI isStokKritis(stok):
+    JIKA stok < 3 MAKA:
+        KEMBALIKAN BENAR
+    SELAIN ITU:
+        KEMBALIKAN SALAH
+AKHIR FUNGSI
+
+FUNGSI getBarisStokClass(stok):
+    JIKA stok == 0 MAKA:
+        KEMBALIKAN "status-habis"
+    SELAIN JIKA isStokKritis(stok) MAKA:
+        KEMBALIKAN "status-kritis"
+    SELAIN ITU:
+        KEMBALIKAN "status-aman"
+AKHIR FUNGSI
+```
+
+### Rancangan Fungsi 3: Helper Format Representasi Moneter
+Untuk memisahkan representasi angka mentah dari format mata uang, fungsi `formatRupiah(nominal)` disiapkan untuk mengubah bilangan bulat menjadi format mata uang resmi Indonesia (pemisah ribuan titik dengan prefiks `Rp`).
