@@ -46,3 +46,44 @@ Sistem dirancang menggunakan prinsip Separation of Concerns (pemisahan tanggung 
 |   3. Menerapkan penanda warna pada baris stok kritis        |
 +-------------------------------------------------------------+
 ```
+
+---
+
+## 2. Cetak Biru Komponen 1: Data Layer (`products.php`)
+
+### Peran dan Tanggung Jawab
+Menjadi basis data komoditas produk di tingkat memori (in-memory data storage) menggunakan struktur multidimensional array. Data layer tidak boleh mengandung logika pemrosesan kalkulasi maupun sintaks tampilan HTML.
+
+### Kamus Data (Data Dictionary)
+
+| Atribut | Tipe Data | Keterangan Logis | Aturan Validasi | Contoh Nilai |
+| :--- | :--- | :--- | :--- | :--- |
+| `id` | String | Pengenal unik setiap komoditas produk | Format kode prefix PRD-XXX | `PRD-001` |
+| `nama` | String | Nama lengkap komoditas dagang | Teks deskriptif, tidak boleh kosong | `Beras Pandan Wangi 5kg` |
+| `kategori` | String | Pengelompokan jenis barang | Sembako, Minuman, Bumbu Dapur | `Sembako` |
+| `harga` | Integer | Nilai jual per unit komoditas (satuan Rupiah) | Bilangan bulat positif (> 0) | `78500` |
+| `stok` | Integer | Jumlah unit fisik yang tersedia di gudang | Bilangan bulat non-negatif (>= 0) | `14` |
+| `deskripsi` | String | Ringkasan spesifikasi komoditas | Penjelasan tekstual ringkas produk | `Beras aroma pandan alami` |
+
+### Rancangan Struktur Multidimensional Array
+Struktur data dirancang berupa Indexed Array yang membungkus kumpulan Associative Array. Setiap elemen array mewakili satu entitas produk utuh:
+
+```
+$products = [
+    [
+        'id'        => (string) identifier unik,
+        'nama'      => (string) nama komoditas,
+        'kategori'  => (string) kategori komoditas,
+        'harga'     => (integer) harga satuan dalam rupiah,
+        'stok'      => (integer) kuantitas fisik tersedia,
+        'deskripsi' => (string) deskripsi spesifikasi
+    ],
+    ...
+]
+```
+
+### Skenario Variasi Data Uji (Test Cases)
+Untuk memastikan sistem dapat mengevaluasi kondisi secara menyeluruh, data komoditas harus mencakup tiga skenario:
+1. Skenario Stok Aman: Kuantitas stok >= 3 (misal: 14 unit, 25 unit).
+2. Skenario Stok Kritis: Kuantitas stok antara 1 sampai 2 unit (memicu deteksi stok tipis).
+3. Skenario Stok Habis: Kuantitas stok tepat 0 unit (memicu status barang kosong).
