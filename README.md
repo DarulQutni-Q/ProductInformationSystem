@@ -175,3 +175,48 @@ Presentation layer memanfaatkan instruksi `require_once` pada baris awal sebelum
 #### Mengapa Menggunakan require_once?
 - Integritas Dependensi: Sistem tidak boleh berjalan jika data atau fungsi tidak tersedia. Pernyataan `require_once` akan menghentikan eksekusi skrip (Fatal Error) jika berkas dependensi hilang, berbeda dengan `include` yang hanya memicu peringatan (Warning).
 - Pencegahan Redeklarasi: Kata kunci `_once` menjamin berkas fungsi atau data tidak dimuat berulang kali, sehingga terhindar dari galat fatal deklarasi fungsi ganda (Cannot redeclare function).
+
+### Perancangan Rendering Tabel HTML via foreach
+Data array produk diiterasi secara sekuensial menggunakan struktur kontrol `foreach ($products as $item)`. Setiap elemen array dipetakan secara terstruktur ke dalam tag baris `<tr>` dan kolom `<td>`:
+
+```text
+ALGORITMA RenderTabel(products):
+    CETAK "<table> ... <tbody>"
+    UNTUK SETIAP item DALAM products LAKUKAN:
+        kelasBaris <- getBarisStokClass(item['stok'])
+        subtotal   <- item['harga'] * item['stok']
+        
+        CETAK "<tr class='" + kelasBaris + "'>"
+        CETAK "  <td>" + item['id'] + "</td>"
+        CETAK "  <td>" + item['nama'] + "</td>"
+        CETAK "  <td>" + item['kategori'] + "</td>"
+        CETAK "  <td>" + formatRupiah(item['harga']) + "</td>"
+        CETAK "  <td>" + item['stok'] + "</td>"
+        CETAK "  <td>" + formatRupiah(subtotal) + "</td>"
+        CETAK "  <td>" + getLabelStok(item['stok']) + "</td>"
+        CETAK "  <td>" + item['deskripsi'] + "</td>"
+        CETAK "</tr>"
+    AKHIR UNTUK
+    CETAK "</tbody> ... </table>"
+AKHIR ALGORITMA
+```
+
+### Mockup Wireframe Antarmuka Konseptual
+
+```
++-----------------------------------------------------------------------------------------+
+| PRODUCT INFORMATION SYSTEM                                                              |
+| Modul Praktikum Pemrograman Web - Pertemuan 2                                           |
++-----------------------------------------------------------------------------------------+
+| [Total Jenis: 8 Item] | [Total Stok: 72 Unit] | [Total Aset: Rp X.XXX.XXX] | [Kritis: 3]|
++-----------------------------------------------------------------------------------------+
+| ID      | NAMA PRODUK         | KATEGORI  | HARGA    | STOK | SUB TOTAL | STATUS  | KET |
++---------+---------------------+-----------+----------+------+-----------+---------+-----+
+| PRD-001 | Beras Pandan 5kg    | Sembako   | 78.500   |  14  | 1.099.000 | Aman    | ... |
+| PRD-002 | Minyak Goreng 2L    | Sembako   | 34.000   |   2  |    68.000 | Kritis* | ... | (Baris Kuning)
+| PRD-004 | Kopi Lampung 250g   | Minuman   | 32.000   |   1  |    32.000 | Kritis* | ... | (Baris Kuning)
+| PRD-006 | Susu UHT 1L         | Minuman   | 21.000   |   0  |         0 | Habis*  | ... | (Baris Merah)
++---------+---------------------+-----------+----------+------+-----------+---------+-----+
+| FOOTER  | Total Nilai Aset Keseluruhan:              | Rp 2.153.500                       |
++---------+--------------------------------------------+------------------------------------+
+```
