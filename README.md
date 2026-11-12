@@ -12,6 +12,14 @@ Sistem ini dibagi menjadi tiga bagian utama agar pengelolaan data, proses perhit
 
 ---
 
+## Cara Menjalankan
+
+```bash
+php -S localhost:8000
+```
+
+Lalu buka http://localhost:8000. `index.php` adalah halaman utama; data produk ada di `products.php`, logika di `functions.php`.
+
 ## 1. Data Layer (`products.php`)
 
 Data produk disimpan dalam bentuk array multidimensi (array di dalam array). Array utama bertindak sebagai daftar produk, sedangkan setiap elemen di dalamnya berupa associative array yang menyimpan informasi detail per barang:
